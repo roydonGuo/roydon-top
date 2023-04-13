@@ -1,0 +1,60 @@
+---
+interface Props {
+  icon_bg?: string;
+  href?: string;
+  text: string;
+}
+
+const {
+  href,
+  text,
+  icon_bg = "rgba(var(--text-color-meta),0.1)",
+} = Astro.props;
+
+const Element = href ? "a" : "div";
+---
+
+<Element
+  class="icon-link"
+  style={`--icon-bg: ${icon_bg}`}
+  href={href}
+  target="_blank"
+>
+  <div class="icon">
+    <slot />
+  </div>
+  <span class="text">{text}</span>
+</Element>
+
+<style define:vars={{ "icon-bg": icon_bg }}>
+  .icon-link {
+    padding: 0.5em 1em 0.5em 0.5em;
+    border-radius: var(--base-radius);
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    /* border: 3px solid var(--border-color); */
+    cursor: pointer;
+    user-select: none;
+  }
+  .icon-link:is(:hover, :focus-within) {
+    background: var(--card-hover-bg);
+    border-color: var(--icon-bg);
+  }
+  .icon-link:active {
+    background: var(--icon-bg);
+  }
+  .icon {
+    width: 2em;
+    height: 2em;
+    padding: 0.5em;
+    background-color: var(--icon-bg);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+  .text {
+    color: rgba(var(--text-color-meta), 1);
+  }
+</style>
